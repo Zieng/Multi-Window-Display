@@ -269,6 +269,7 @@ void window4_display()
 	glutSwapBuffers();
 
 }
+
 void key(unsigned char k, int x, int y)
 {
 	switch(k)
