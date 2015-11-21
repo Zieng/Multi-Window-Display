@@ -24,9 +24,10 @@ float fScale     = 1.0f;	// set inital scale value to 1.0f
 
 bool bAnim = false;
 bool bWire = true;
+bool bPers = true;
 
 
-float eye[] = {0, 0, 1};
+float eye[] = {1, 8, 1};
 float center[] = {0, 0, 0};
 float tx=0,ty=0,tz=0;   // for translete the teapot
 float tr;
@@ -64,17 +65,22 @@ void bigWindow_reshape(int width,int height)
     glutSetWindow(bigWindow);
 
     glViewport(0,0,width,height);
-    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-    glLoadIdentity();									// Reset The Projection Matrix
 
-    glOrtho(-3 ,3, -3, 3,-100,100);
-
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void bigWindow_display()
 {
     glutSetWindow(bigWindow);
+
+    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+    glLoadIdentity();									// Reset The Projection Matrix
+
+    if(bPers)
+        glFrustum(-1,1,-1,1,5,20);
+    else
+        glOrtho(-3 ,3, -3, 3,-100,100);
+
+    glMatrixMode(GL_MODELVIEW);
 
     float myEye[]={eye[0],eye[1],eye[2]};
 
@@ -108,18 +114,22 @@ void window1_reshape(int width, int height)
 
 //    glViewport(width/2,-height/2,width,height);						// Reset The Current Viewport
     glViewport(0,0,width,height);
-    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-    glLoadIdentity();									// Reset The Projection Matrix
 
-
-//    glOrtho(-3 ,3, -3, 3,-100,100);
-    glOrtho(-3,0,0,3,-100,100);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void window1_display()
 {
     glutSetWindow(window1);
+
+    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+    glLoadIdentity();									// Reset The Projection Matrix
+
+    if(bPers)
+        glFrustum(-1,0,0,1,5,20);
+    else
+        glOrtho(-3,0,0,3,-100,100);
+
+    glMatrixMode(GL_MODELVIEW);
 
     float myEye[]={eye[0]-1,eye[1]-1,eye[2]};
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -152,19 +162,22 @@ void window2_reshape(int width, int height)
     glutSetWindow(window2);
     cout<<"Window2::width="<<width<<",height="<<height<<endl;
 
-//    glViewport(-width/2,-height/2,width,height);						// Reset The Current Viewport
     glViewport(0,0,width,height);
-    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-    glLoadIdentity();									// Reset The Projection Matrix
 
-//    glOrtho(-3 ,3, -3, 3,-100,100);
-    glOrtho(0,3,0,3,-100,100);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void window2_display()
 {
     glutSetWindow(window2);
+
+    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+    glLoadIdentity();									// Reset The Projection Matrix
+
+    if(bPers)
+        glFrustum(0,1,0,1,5,20);
+    else
+        glOrtho(0,3,0,3,-100,100);
+    glMatrixMode(GL_MODELVIEW);
 
     float myEye[]={eye[0]-1,eye[1]+1,eye[2]};
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -197,19 +210,23 @@ void window3_reshape(int width, int height)
     glutSetWindow(window3);
     cout<<"Window3::width="<<width<<",height="<<height<<endl;
 
-//    glViewport(width/2,height/2,width,height);						// Reset The Current Viewport
     glViewport(0,0,width,height);
-    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-    glLoadIdentity();									// Reset The Projection Matrix
 
-//    glOrtho(-3 ,3, -3, 3,-100,100);
-    glOrtho(-3,0,-3,0,-100,100);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void window3_display()
 {
     glutSetWindow(window3);
+
+    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+    glLoadIdentity();									// Reset The Projection Matrix
+
+    if(bPers)
+        glFrustum(-1,0,-1,0,5,20);
+    else
+        glOrtho(-3,0,-3,0,-100,100);
+    glMatrixMode(GL_MODELVIEW);
+
 
     float myEye[]={eye[0]+1,eye[1]-1,eye[2]};
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -243,17 +260,21 @@ void window4_reshape(int width, int height)
 
 //    glViewport(-width/2,height/2,width,height);						// Reset The Current Viewport
     glViewport(0,0,width,height);
-    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
-    glLoadIdentity();									// Reset The Projection Matrix
 
-//    glOrtho(-3 ,3, -3, 3,-100,100);
-    glOrtho(0,3,-3,0,-100,100);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void window4_display()
 {
     glutSetWindow(window4);
+
+    glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
+    glLoadIdentity();									// Reset The Projection Matrix
+
+    if(bPers)
+        glFrustum(0,1,-1,0,5,20);
+    else
+        glOrtho(0,3,-3,0,-100,100);
+    glMatrixMode(GL_MODELVIEW);
 
     float myEye[]={eye[0]+1,eye[1]+1,eye[2]};
 
@@ -339,6 +360,11 @@ void key(unsigned char k, int x, int y)
         }
         case 'e': {//todo
             tr+=1;
+            break;
+        }
+        case 'p':{
+            bPers =! bPers;
+            cout<<"change bPers form "<<!bPers<<" to "<<bPers<<endl;
             break;
         }
     }
